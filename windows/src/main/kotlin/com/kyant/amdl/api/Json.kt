@@ -1,0 +1,51 @@
+package com.kyant.amdl.api
+
+import org.json.JSONArray
+import org.json.JSONObject
+
+typealias JsonObject = JSONObject
+typealias JsonArray = JSONArray
+
+inline fun buildJsonObject(block: JsonObject.() -> Unit): JsonObject {
+    return JsonObject().apply(block)
+}
+
+fun JsonObject.getObjectOrNull(name: String): JsonObject? {
+    return opt(name) as? JsonObject
+}
+
+fun JsonObject.getArrayOrNull(name: String): JsonArray? {
+    return opt(name) as? JsonArray
+}
+
+fun JsonObject.getStringOrNull(name: String): String? {
+    return when (val value = opt(name)) {
+        null, JSONObject.NULL -> null
+        else -> value.toString()
+    }
+}
+
+fun JsonObject.getBooleanOrNull(name: String): Boolean? {
+    return when (val value = opt(name)) {
+        is Boolean -> value
+        is String -> value.toBooleanStrictOrNull()
+        else -> null
+    }
+}
+
+fun JsonObject.getIntOrNull(name: String): Int? {
+    return when (val value = opt(name)) {
+        is Int -> value
+        is Number -> value.toInt()
+        is String -> value.toIntOrNull()
+        else -> null
+    }
+}
+
+fun JsonArray.getObjectOrNull(index: Int): JsonObject? {
+    return opt(index) as? JsonObject
+}
+
+inline fun <reified T> JsonArray.asSequence(): Sequence<T> {
+    return (0 until length()).asSequence().mapNotNull { opt(it) as? T }
+}

@@ -14,3 +14,6 @@
 .cxx
 local.properties
 /app/release/
+
+# Local Miuix checkout for the Windows composite build
+/miuix/

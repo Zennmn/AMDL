@@ -1,0 +1,11 @@
+.gradle/
+.kotlin/
+.idea/
+.tools/
+build/
+dist/
+rust/target/
+*.log
+local.properties
+src/main/resources/native/windows-x64/*.dll
+.planning/**/jdk17-*-path-backup-*.json
